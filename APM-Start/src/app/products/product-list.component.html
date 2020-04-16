@@ -1,17 +1,15 @@
 <div class="card">
     <div class="card-header">
-        {{pageTitle}}
+        {{ pageTitle }}
     </div>
     <div class="card-body">
-        <div class="row">
-            <div class="col-md-2">Filter by:</div>
-            <div class="col-md-4">
-                <input type="text"/>
+        <div class="row text-center">
+            <div class="col">Filter by: <input [(ngModel)]="listFilter" type="text"/>
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-6">
-                <h4>Filtered by: </h4>
+        <div class="row text-center">
+            <div class="col">
+                <h4>Filtered by: {{ listFilter }}</h4>
             </div>
         </div>
         <div class="table-responsive">
@@ -19,8 +17,8 @@
                 <thead>
                     <tr>
                         <th>
-                            <button class="btn btn-primary">
-                                Show Image
+                            <button (click)="toggleImage()" class="btn btn-primary">
+                                {{ showImage ? "Hide" : "Show" }} Image
                             </button>
                         </th>
                         <th>Product</th>
@@ -31,13 +29,17 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let product of products">
-                        <td></td>
-                        <td>{{product.productName}}</td>
-                        <td>{{product.productCode}}</td>
-                        <td>{{product.releaseDate}}</td>
-                        <td>{{product.price}}</td>
-                        <td>{{product.starRating}}</td>
+                    <tr *ngFor="let product of filteredProducts">
+                        <td><img *ngIf="showImage" [src]="product.imageUrl" 
+                            [title]="product.productName"
+                            [style.width.px]="imageWidth"
+                            [style.margin.px]="imageMargin" 
+                            alt="product.productName"></td>
+                        <td>{{ product.productName }}</td>
+                        <td>{{ product.productCode | lowercase | convertToSpaces:"-"}}</td>
+                        <td>{{ product.releaseDate }}</td>
+                        <td>{{ product.price | currency:'USD':'symbol':'1.2-2' }}</td>
+                        <td>{{ product.starRating }}</td>
                     </tr>
                 </tbody>
             </table>
