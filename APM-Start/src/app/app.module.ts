@@ -10,6 +10,7 @@ import { ConvertToSpacesPipe } from './shared/convert-to-spaces.pipe';
 import { StarComponent } from './shared/star.component';
 import { ProductDetailComponent } from './products/product-detail.component';
 import { WelcomeComponent } from './home/welcome.component';
+import { ProductDetailGuard } from './products/product-detail.guard';
 
 
 @NgModule({
@@ -28,12 +29,15 @@ import { WelcomeComponent } from './home/welcome.component';
     RouterModule.forRoot([
       //Router uses first-match wins strategy
       { path: 'products', component: ProductListComponent },
-      { path: 'products/:id', component: ProductDetailComponent },
+      { path: 'products/:id', 
+        canActivate: [ProductDetailGuard],
+        component: ProductDetailComponent },
       { path: 'welcome', component: WelcomeComponent },
       { path: '', redirectTo: 'welcome', pathMatch: 'full' },
       { path: '**', redirectTo: 'welcome', pathMatch: 'full' }
     ], {useHash: true})
   ],
+  //Only used in the app module or root module
   bootstrap: [AppComponent]
 })
 export class AppModule { }
